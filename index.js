@@ -11,55 +11,47 @@ app.use(bodyParser.json())
 
 //Connect SQL Server
 
-const config = {
-    user: 'root',
-    server: 'localhost',
-    password: '',
-    database: 'CarsDB',
-    port: port,
-    options: {
-        trustServerCertificate: true
+
+const db = mysql.createConnection({
+    host     : 'localhost',
+    database : 'CarsDB',
+    user     : 'root',
+    password : '',
+});
+
+db.connect(function(err) {
+    if (err) {
+        console.error('Error connecting: ' + err.stack);
+        return;
     }
-}
-console.log("test")
-//Check DB Conn...
-db = mysql.createConnection(config)
+
+    console.log('Connected as id ' + db.threadId);
+});
+
+db.query('SELECT * FROM users', function (error, results, fields) {
+    if (error)
+        throw error;
+
+    results.forEach(result => {
+        console.log(result);
+    });
+});
 
 
-
-app.get("/", async(req, res) => {
-    try {
-        await db.connect()
-        res.send(`DB ${config.database} Connected`)
-    }catch(err) {
-        console.log(err)
-    }
-})
 
 
 app.get('/users',(req, res)=> {
     
-    // try {
-    let users = `SELECT * FROM users`
 
-
-    db.query(users,(err,rows)=> {
-        console.log("start")
-        if(err){
+    db.query('SELECT * FROM users', function (error, results, fields) {
+        if (error)
+            throw error;
+    
+        results.forEach(result => {
             
-            res.send(err)
-            res.render('profile: ',{data: ''})
-        }
-        else{
-            res.render('profile: ', {data: rows})
-            // res.send({
-            //     message : 'All users Data',
-            //     data : result
-            // })
-            console.log(result)
-        }
-    })
-    res.send("Get all users")
+            res.send(result)
+        });
+    });
 
 })
 
