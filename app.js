@@ -7,6 +7,6 @@ app.use(cors())
 app.use(express.json());
 app.use('/', indexRouter);
 
-app.listen(4000, () => {
-    console.log('listening on port 4000');
+app.listen(5555, () => {
+    console.log('listening on port 5555');
 })
