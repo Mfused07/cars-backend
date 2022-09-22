@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken')
 const app = express();
 const bcrypt = require("bcrypt")
 
+
+
 //setup db
 
 const db = mysql.createPool({
