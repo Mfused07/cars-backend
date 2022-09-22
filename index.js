@@ -161,7 +161,7 @@ app.post("/create-order", async (req,res) => {
 					const orderId = result.insertId
 
 
-					//Create Order Details when Order Created and update Stock
+					// Create Order Details when Order Created and update Stock
 					sqlInsert = `INSERT INTO orderdetails VALUES (0,${orderId}, ${productId}, ${quantity}); UPDATE products SET stock = stock - ${quantity} WHERE id = ${productId}`
 
 					db.query(sqlInsert,(error, result)=> {
